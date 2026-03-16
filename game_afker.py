@@ -4,8 +4,8 @@ import time
 import random
 
 # Global variables
-movement_interval = 5   # Scheduled time interval in seconds for each movement group execution
-check_interval = 5*60      # Time interval in seconds to check for pending scheduled tasks. Adjust as needed.
+movement_interval = 5*60   # Scheduled time interval in seconds for each movement group execution
+check_interval = 60      # Time interval in seconds to check for pending scheduled tasks. Adjust as needed.
 execution_count = 0  # Counter for number of executions
 
 def simulate_movement(pause_min=0.5, pause_max=1.0):
