@@ -1,15 +1,15 @@
 import pyautogui
-import schedule
 import time
 import random
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 # CONFIGURATION
-movement_interval = 5*60        # Scheduled time interval in seconds for each movement group execution
-movement_interval_range = 20    # Maximum variation seconds to add to the movement interval for randomness (0 to movement_interval_range seconds)
-check_interval = 60             # Time interval in seconds to check for pending scheduled tasks. Adjust as needed.
-press_time_min = 0.2            # Minimum time to hold down a key in seconds
-press_time_max = 0.5            # Maximum time to hold down a key in seconds
+movement_interval_min = 5*60                        # Minimum time in seconds between pairs of movements
+movement_interval_max = movement_interval_min + 30  # Maximum time in seconds between pairs of movements
+press_time_min = 0.2                                # Minimum time to hold down a key in seconds
+press_time_max = 0.5                                # Maximum time to hold down a key in seconds
 
+#Other global variables
 execution_count = 0                     # Counter for number of executions. Do not modifity
 direction_keys = ['a', 'w', 's', 'd']   # Possible movement keys
 
@@ -43,15 +43,21 @@ def simulate_movement(pause_min=0.5, pause_max=1.0):
     pyautogui.keyUp(key2)
 
 
+def scheduled_movement():
+    simulate_movement()
+    # Reschedule with random interval
+    scheduler.reschedule_job('movement', trigger='interval', seconds=random.uniform(movement_interval_min, movement_interval_max))
+    
 # ------------------------#
 #       MAIN SCRIPT       #
 # ------------------------#
-schedule.every(movement_interval).seconds.do(simulate_movement)
+
+scheduler = BlockingScheduler()
+scheduler.add_job(scheduled_movement, 'interval', seconds=movement_interval_min, id='movement')
 
 print("\nStarting movement simulation...")
 try:
-    while True:
-        schedule.run_pending()
-        time.sleep(check_interval)
+    scheduler.start()
 except KeyboardInterrupt:
+    scheduler.shutdown()
     print("\nScript stopped by user. Not pressing any keys anymore.")
