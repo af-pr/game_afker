@@ -3,10 +3,15 @@ import schedule
 import time
 import random
 
-# Global variables
-movement_interval = 5*60   # Scheduled time interval in seconds for each movement group execution
-check_interval = 60      # Time interval in seconds to check for pending scheduled tasks. Adjust as needed.
-execution_count = 0  # Counter for number of executions
+# CONFIGURATION
+movement_interval = 5*60        # Scheduled time interval in seconds for each movement group execution
+movement_interval_range = 20    # Maximum variation seconds to add to the movement interval for randomness (0 to movement_interval_range seconds)
+check_interval = 60             # Time interval in seconds to check for pending scheduled tasks. Adjust as needed.
+press_time_min = 0.2            # Minimum time to hold down a key in seconds
+press_time_max = 0.5            # Maximum time to hold down a key in seconds
+
+execution_count = 0                     # Counter for number of executions. Do not modifity
+direction_keys = ['a', 'w', 's', 'd']   # Possible movement keys
 
 def simulate_movement(pause_min=0.5, pause_max=1.0):
     """
@@ -21,7 +26,6 @@ def simulate_movement(pause_min=0.5, pause_max=1.0):
     execution_count += 1
     
     # Select two random keys
-    direction_keys = ['a', 'w', 's', 'd']
     key1 = random.choice(direction_keys)
     key2 = random.choice(direction_keys)
     
@@ -29,13 +33,13 @@ def simulate_movement(pause_min=0.5, pause_max=1.0):
     
     # Press 1st key
     pyautogui.keyDown(key1)
-    time.sleep(random.uniform(0.3, 0.7))  # Random sleep between 0.2 and 0.7 seconds
+    time.sleep(random.uniform(press_time_min, press_time_max))  # Random sleep between 0.2 and 0.7 seconds
     pyautogui.keyUp(key1)
     # Pause between moves
     time.sleep(random.uniform(pause_min, pause_max))
     # Press 2nd key
     pyautogui.keyDown(key2)
-    time.sleep(random.uniform(0.3, 0.7))  # Random sleep between 0.2 and 0.7 seconds
+    time.sleep(random.uniform(press_time_min, press_time_max))  # Random sleep between 0.2 and 0.7 seconds
     pyautogui.keyUp(key2)
 
 

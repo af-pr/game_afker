@@ -53,6 +53,8 @@ You can adjust the parameters at the top of the `game_afker.py` file:
 ```python
 movement_interval = 5*60    # This is the time (in seconds) that the script waits before each pair of movements
 check_interval = 60         # How often to check if execution is needed (in seconds). Only change if necessary
+press_time_min = 0.2        # Minimum time to hold down a key in seconds
+press_time_max = 0.5        # Maximum time to hold down a key in seconds
 ```
 
 ## Troubleshooting
