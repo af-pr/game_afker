@@ -1,10 +1,12 @@
 import pyautogui
 import time
 import random
-from apscheduler.schedulers.blocking import BlockingScheduler
+import signal
+import sys
+from apscheduler.schedulers.background import BackgroundScheduler
 
 # CONFIGURATION
-movement_interval_min = 5*60                        # Minimum time in seconds between pairs of movements
+movement_interval_min = 60                        # Minimum time in seconds between pairs of movements
 movement_interval_max = movement_interval_min + 30  # Maximum time in seconds between pairs of movements
 press_time_min = 0.2                                # Minimum time to hold down a key in seconds
 press_time_max = 0.5                                # Maximum time to hold down a key in seconds
@@ -47,17 +49,26 @@ def scheduled_movement():
     simulate_movement()
     # Reschedule with random interval
     scheduler.reschedule_job('movement', trigger='interval', seconds=random.uniform(movement_interval_min, movement_interval_max))
+
+def signal_handler(sig, frame):
+    scheduler.shutdown(wait=False)
+    print("\nScript stopped by user. Not pressing any keys anymore.")
+    sys.exit(0)
     
 # ------------------------#
 #       MAIN SCRIPT       #
 # ------------------------#
 
-scheduler = BlockingScheduler()
+signal.signal(signal.SIGINT, signal_handler)
+
+scheduler = BackgroundScheduler()
 scheduler.add_job(scheduled_movement, 'interval', seconds=movement_interval_min, id='movement')
 
 print("\nStarting movement simulation...")
+scheduler.start()
+
 try:
-    scheduler.start()
+    while True:
+        time.sleep(1)
 except KeyboardInterrupt:
-    scheduler.shutdown()
-    print("\nScript stopped by user. Not pressing any keys anymore.")
+    pass
