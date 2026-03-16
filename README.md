@@ -1,6 +1,6 @@
 # Game AFK'er
 
-Python script to simulate automatic character movement in a game to prevent AFK (Away From Keyboard) disconnection.
+A Python script that simulates automatic character movement in a game to prevent AFK (Away From Keyboard) disconnection.
 
 ## Description
 
@@ -25,7 +25,7 @@ Game AFKer is a simple automation tool that simulates random keyboard presses to
 
 ## Usage
 
-### Basic execution
+### Running the script
 
 1. Open a terminal in the project folder. Running the terminal as an administrator might be necessary depending on the game.
 2. Run the script:
@@ -33,9 +33,7 @@ Game AFKer is a simple automation tool that simulates random keyboard presses to
    python game_afker.py
    ```
 
-3. Open the game window, making it into focus and allowing the game to register the movement
-
-4. The script will automatically start simulating movement
+3. Open the game window, making it into focus - the script will start pressing keys immediately every 5 seconds
 
 ### Stopping execution
 
@@ -61,9 +59,10 @@ check_interval = 60         # How often to check if execution is needed (in seco
 
 ### The script runs but the character doesn't move
 
-1. **Make sure the game is in focus** when the movements are being tried ()
-2. **Check if the keys are being pressed** - you can set the focus to another program to check if the keys are being pressed. For example you can open notepad and check if some of the random key letters are being written. You might want to adjust movement_interval and check_interval to avoid long waiting.
-3. **Run as administrator** - some games require elevated permissions:
+1. **Verify the script is running** there should be a log in the terminal similar to "Executing movement simulation (Execution #1) - Keys: D, S" each time the movements are being tried
+2. **Make sure the game is in focus** when the movements are being tried
+3. **Check if the keys are being pressed** - you can set the focus to another program to check if the keys are being pressed. For example you can open notepad and check if some of the random key letters are being written. You might want to adjust movement_interval and check_interval to avoid long waiting.
+4. **Run as administrator** - some games require elevated permissions:
    - Right-click on PowerShell → "Run as administrator"
    - Then run the script
 
