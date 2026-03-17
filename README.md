@@ -85,7 +85,7 @@ press_time_max = 0.5            # Maximum time to hold down a key in seconds
 
 ## License
 
-This project is open source and free to use.
+[MIT](LICENSE)
 
 ## Author
 
