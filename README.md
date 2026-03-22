@@ -4,7 +4,14 @@ A Python script that simulates automatic character movement in a game to prevent
 
 ## Description
 
-Game AFKer is a simple automation tool that simulates random keyboard presses to keep your game character moving while you're away. The script presses two random movement keys (`a`, `w`, `s`, `d`) with a small random delay in between, making the behavior less predictable. This behaviour is repeated every 5 minutes until the user exists the script.
+Game AFKer is a simple automation tool that simulates character movement in a game to prevent AFK (Away From Keyboard) disconnection. It offers two operating modes:
+
+- **Free Mode (default):** Simulates random keyboard presses with two random movement keys (`a`, `w`, `s`, `d`) with a small random delay in between, making the behavior unpredictable.
+- **Restricted Mode:** Allows you to specify allowed movement directions. The script alternates into two-cycle pairs:
+  - **Cycle A:** Presses one random key from your allowed directions
+  - **Cycle B:** Presses the opposite direction (w↔s, a↔d) with the exact same duration as Cycle A
+  
+Both modes repeat every 5 minutes (with random variance) until you exit the script.
 
 ## Prerequisites
 
@@ -33,7 +40,28 @@ Game AFKer is a simple automation tool that simulates random keyboard presses to
    python game_afker.py
    ```
 
-3. Open the game window, making it into focus - the script will start pressing keys immediately every 5 seconds
+3. Select your operating mode:
+   - Press `1` or `Enter` for **Free Mode** (default)
+   - Press `2` (or type `r`/`restricted`) for **Restricted Mode**
+
+4. If you choose **Restricted Mode**, enter the allowed movement directions:
+   - Type any combination of `w`, `a`, `s`, `d` (e.g., `wa`, `sad`, `wasd`)
+   - Duplicates and invalid characters are automatically ignored
+   - At least one valid direction is required
+
+5. Open the game window, making it into focus - the script will start pressing keys immediately
+
+### Mode Details
+
+**Free Mode:**
+- Presses two random directions per cycle
+- Repeats every ~5 minutes
+
+**Restricted Mode:**
+- Cycle A: Presses a random key from your allowed directions
+- Cycle B: Presses the opposite direction with the same duration
+- Pattern repeats: A → B → A → B → ...
+- Repeats every ~5 minutes
 
 ### Stopping execution
 
